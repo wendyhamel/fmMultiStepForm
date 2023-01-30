@@ -5,13 +5,16 @@ tailwind.config = {
 		},
 		extend: {
 			colors: {
-				'blue-gray-light': 'hsl(240, 5%, 91%)', // Divider
-				'blue': 'hsl(240, 73%, 65%)', // Gradient
-				'blue-gray-dark': 'hsl(240, 6%, 50%)', // Text
-				'blue-gray-darker': 'hsl(237, 12%, 33%)', // Text
-				'blue-gray-darkest': 'hsl(238, 29%, 16%)', // Text
-				'soft-red': 'hsl(14, 88%, 65%)', // Text
-				'violet': 'hsl(273, 75%, 66%)', // Gradient
+				'blue-marine': 'hsl(213, 96%, 18%)',
+				'blue-purple': 'hsl(243, 100%, 62%)',
+				'blue-pastel': 'hsl(228, 100%, 84%)',
+				'blue-light': 'hsl(206, 94%, 87%)',
+				'red-strawberry': 'hsl(354, 84%, 57%)',
+				'gray-cool': 'hsl(231, 11%, 63%)',
+				'gray-light': 'hsl(229, 24%, 87%)',
+				'magnolia': 'hsl(217, 100%, 97%)',
+				'alabaster': 'hsl(231, 100%, 99%)',
+				'white': 'hsl(0, 0%, 100%)',
 			},
 		}
 	}
