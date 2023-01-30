@@ -47,14 +47,14 @@
   <!-- Sidebar end -->
   <!-- Steps content -->
 
-    <section>
+    <form>
 
       <!-- Step 1 start -->
       <section x-show="currentStep === 1">
         <h2>Personal info</h2>
         <p>Please provide your name, email address, and phone number.</p>
-        <form>
-          <label for="name">
+
+        <label for="name">
             <span>
               Name
             </span>
@@ -77,8 +77,6 @@
 
           <button type="submit">Next Step</button>
 
-        </form>
-
       </section>
       <!-- Step 1 end -->
 
@@ -100,8 +98,8 @@
       Monthly
       Yearly
 
-      Go Back
-      Next Step
+          <button type="button" @click="step = 1">Go Back</button>
+          <button @click="step = 3">Next Step</button>
 
       </section>
       <!-- Step 2 end -->
@@ -124,8 +122,8 @@
       Custom theme on your profile
       +$2/mo
 
-      Go Back
-      Next Step
+          <button type="button" @click="step = 2">Go Back</button>
+          <button @click="step = 4">Next Step</button>
 
       </section>
       <!-- Step 3 end -->
@@ -140,8 +138,8 @@
 
       Total (per month/year)
 
-      Go Back
-      Confirm
+        <button type="button" @click="step = 3">Go Back</button>
+        <button type="submit" @click="step = 5">Confirm</button>
 
       </section>
       <!-- Step 4 end -->
@@ -158,7 +156,7 @@
       </section>
       <!-- Step 5 end -->
 
-    </section>
+    </form>
   <!-- Steps content end -->
   </section>
 </main>
