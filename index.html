@@ -75,7 +75,7 @@
             <input id="phone" type="text" placeholder="e.g. +1 234 567 890">
           </label>
 
-          <button type="submit">Next Step</button>
+          <button type="button" @click="currentStep = 2">Next Step</button>
 
       </section>
       <!-- Step 1 end -->
@@ -83,23 +83,125 @@
       <!-- Step 2 start -->
       <section x-show="currentStep === 2">
 
-      <h2>Select your plan</h2>
-      <p>You have the option of monthly or yearly billing.</p>
 
-      Arcade
-      $9/mo
+        <fieldset>
+          <legend><h2>Select your plan</h2></legend>
 
-      Advanced
-      $12/mo
+          <p>You have the option of monthly or yearly billing.</p>
 
-      Pro
-      $15/mo
+          <template x-for="plan in plans">
+            <fieldset>
+              <legend class="text-base font-medium text-gray-900">Select a mailing list</legend>
 
-      Monthly
-      Yearly
+              <div class="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4">
+                <!--
+				  Checked: "border-transparent", Not Checked: "border-gray-300"
+				  Active: "border-indigo-500 ring-2 ring-indigo-500"
+				-->
+                <label class="relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm focus:outline-none">
+                  <input type="radio" name="project-type" value="Newsletter" class="sr-only" aria-labelledby="project-type-0-label" aria-describedby="project-type-0-description-0 project-type-0-description-1">
+                  <span class="flex flex-1">
+                    <span class="flex flex-col">
+                      <span id="project-type-0-label" class="block text-sm font-medium text-gray-900">Newsletter</span>
+                      <span id="project-type-0-description-0" class="mt-1 flex items-center text-sm text-gray-500">Last message sent an hour ago</span>
+                      <span id="project-type-0-description-1" class="mt-6 text-sm font-medium text-gray-900">621 users</span>
+                    </span>
+                  </span>
+                  <!--
+					Not Checked: "invisible"
 
-          <button type="button" @click="step = 1">Go Back</button>
-          <button @click="step = 3">Next Step</button>
+					Heroicon name: mini/check-circle
+				  -->
+                  <svg class="h-5 w-5 text-indigo-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                  </svg>
+                  <!--
+					Active: "border", Not Active: "border-2"
+					Checked: "border-indigo-500", Not Checked: "border-transparent"
+				  -->
+                  <span class="pointer-events-none absolute -inset-px rounded-lg border-2" aria-hidden="true"></span>
+                </label>
+
+                <!--
+				  Checked: "border-transparent", Not Checked: "border-gray-300"
+				  Active: "border-indigo-500 ring-2 ring-indigo-500"
+				-->
+                <label class="relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm focus:outline-none">
+                  <input type="radio" name="project-type" value="Existing Customers" class="sr-only" aria-labelledby="project-type-1-label" aria-describedby="project-type-1-description-0 project-type-1-description-1">
+                  <span class="flex flex-1">
+                    <span class="flex flex-col">
+                      <span id="project-type-1-label" class="block text-sm font-medium text-gray-900">Existing Customers</span>
+                      <span id="project-type-1-description-0" class="mt-1 flex items-center text-sm text-gray-500">Last message sent 2 weeks ago</span>
+                      <span id="project-type-1-description-1" class="mt-6 text-sm font-medium text-gray-900">1200 users</span>
+                    </span>
+                  </span>
+                  <!--
+					Not Checked: "invisible"
+
+					Heroicon name: mini/check-circle
+				  -->
+                  <svg class="h-5 w-5 text-indigo-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                  </svg>
+                  <!--
+					Active: "border", Not Active: "border-2"
+					Checked: "border-indigo-500", Not Checked: "border-transparent"
+				  -->
+                  <span class="pointer-events-none absolute -inset-px rounded-lg border-2" aria-hidden="true"></span>
+                </label>
+
+                <!--
+				  Checked: "border-transparent", Not Checked: "border-gray-300"
+				  Active: "border-indigo-500 ring-2 ring-indigo-500"
+				-->
+                <label class="relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm focus:outline-none">
+                  <input type="radio" name="project-type" value="Trial Users" class="sr-only" aria-labelledby="project-type-2-label" aria-describedby="project-type-2-description-0 project-type-2-description-1">
+                  <span class="flex flex-1">
+                    <span class="flex flex-col">
+                      <span id="project-type-2-label" class="block text-sm font-medium text-gray-900">Trial Users</span>
+                      <span id="project-type-2-description-0" class="mt-1 flex items-center text-sm text-gray-500">Last message sent 4 days ago</span>
+                      <span id="project-type-2-description-1" class="mt-6 text-sm font-medium text-gray-900">2740 users</span>
+                    </span>
+                  </span>
+                  <!--
+					Not Checked: "invisible"
+
+					Heroicon name: mini/check-circle
+				  -->
+                  <svg class="h-5 w-5 text-indigo-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                  </svg>
+                  <!--
+					Active: "border", Not Active: "border-2"
+					Checked: "border-indigo-500", Not Checked: "border-transparent"
+				  -->
+                  <span class="pointer-events-none absolute -inset-px rounded-lg border-2" aria-hidden="true"></span>
+                </label>
+              </div>
+            </fieldset>
+
+            <div>
+              <label>
+                <input type="radio" name="plans">
+              </label>
+              <span></span>
+              <h3 x-text="plan.title"></h3>
+              <span x-text="billingYearly ? plan.priceYearly + '/yr' : plan.priceMonthly + '/mo'"></span>
+              <span x-show="billingYearly" x-text="plan.yearlyDiscountDetails"></span>
+            </div>
+          </template>
+        </fieldset>
+
+        <div class="flex items-center gap-4">
+          <span :class="!billingYearly ? 'text-sm font-medium text-gray-900' : 'text-sm text-gray-500'">Monthly</span>
+          <button @click="billingYearly = !billingYearly" type="button" class="bg-blue-marine relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-4 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-purple" role="switch" aria-checked="false" aria-labelledby="annual-billing-label">
+            <span aria-hidden="true" :class="billingYearly ? 'translate-x-5' : 'translate-x-0'" class="pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+          </button>
+          <span :class="billingYearly ? 'text-sm font-medium text-gray-900' : 'text-sm text-gray-500'">Yearly</span>
+        </div>
+
+          <button type="button" @click="currentStep = 1">Go Back</button>
+          <button type="button" @click="currentStep = 3">Next Step</button>
 
       </section>
       <!-- Step 2 end -->
@@ -110,20 +212,38 @@
       <h2>Pick add-ons</h2>
       <p>Add-ons help enhance your gaming experience.</p>
 
-      Online service
-      Access to multiplayer games
-      +$1/mo
+        <!--
+  This example requires some changes to your config:
 
-      Larger storage
-      Extra 1TB of cloud save
-      +$2/mo
+  ```
+  // tailwind.config.js
+  module.exports = {
+    // ...
+    plugins: [
+      // ...
+      require('@tailwindcss/forms'),
+    ],
+  }
+  ```
+-->
+        <fieldset class="space-y-5">
+          <legend class="sr-only">Notifications</legend>
+          <template x-for="addon in addons">
+            <div class="relative flex items-start">
+              <div class="flex h-5 items-center">
+                <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+              </div>
+              <div class="ml-3 text-sm">
+                <label for="comments" class="font-medium text-gray-700" x-text="addon.name"></label>
+                <p id="comments-description" class="text-gray-500" x-text="addon.details"></p>
+              </div>
+              <span>+&dollar;<span x-text="billingYearly ? addon.priceYearly + '/yr' : addon.priceMonthly + '/mo'"></span></span>
+            </div>
+          </template>
+        </fieldset>
 
-      Customizable Profile
-      Custom theme on your profile
-      +$2/mo
-
-          <button type="button" @click="step = 2">Go Back</button>
-          <button @click="step = 4">Next Step</button>
+          <button type="button" @click="currentStep = 2">Go Back</button>
+          <button type="button" @click="currentStep = 4">Next Step</button>
 
       </section>
       <!-- Step 3 end -->
@@ -138,8 +258,8 @@
 
       Total (per month/year)
 
-        <button type="button" @click="step = 3">Go Back</button>
-        <button type="submit" @click="step = 5">Confirm</button>
+        <button type="button" @click="currentStep = 3">Go Back</button>
+        <button type="submit" @click="currentStep = 5">Confirm</button>
 
       </section>
       <!-- Step 4 end -->
