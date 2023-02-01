@@ -19,7 +19,6 @@
 
   <!-- Alpine Plugins -->
   <script defer src="https://unpkg.com/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
-  <script defer src="https://unpkg.com/@alpinejs/mask@3.x.x/dist/cdn.min.js"></script>
 
   <!-- Alpine Core -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -47,35 +46,60 @@
   <!-- Sidebar end -->
   <!-- Steps content -->
 
-    <form>
+    <form
+        method="post"
+        x-init="
+            $watch('name', value => { validate('name')})
+            $watch('email', value => { validate('email')})
+            $watch('phone', value => { validate('phone')})
+        "
+    >
 
       <!-- Step 1 start -->
       <section x-show="currentStep === 1">
         <h2>Personal info</h2>
         <p>Please provide your name, email address, and phone number.</p>
 
-        <label for="name">
+        <label>
             <span>
               Name
             </span>
-            <input id="name" type="text" placeholder="e.g. Stephen King">
+            <span class="text-red-strawberry" x-text="validation.name.message"></span>
+            <input
+                x-model="name"
+                type="text"
+                placeholder="e.g. Stephen King"
+                required
+            >
           </label>
 
-          <label for="email">
+          <label>
             <span>
               Email Address
             </span>
-            <input id="email" type="text" placeholder="e.g. stephenking@lorem.com">
+            <span class="text-red-strawberry" x-text="validation.email.message"></span>
+            <input
+                x-model="email"
+                type="text"
+                placeholder="e.g. stephenking@lorem.com"
+                required
+            >
           </label>
 
-          <label for="phone">
+          <label>
             <span>
               Phone Number
             </span>
-            <input id="phone" type="text" placeholder="e.g. +1 234 567 890">
+            <span class="text-red-strawberry" x-text="validation.phone.message"></span>
+            <input
+                x-model="phone"
+                type="text"
+                placeholder="e.g. +1 234 567 890"
+                required
+            >
           </label>
 
-          <button type="button" @click="currentStep = 2">Next Step</button>
+          <button type="button" @click="validate('name'); validate('email'); validate('phone'); nextStep()" class="bg-blue-marine text-white hover:bg-blue-marine/90 disabled:bg-blue-marine/40 disabled:hover:cursor-not-allowed">Next Step</button>
 
       </section>
       <!-- Step 1 end -->
@@ -89,107 +113,24 @@
 
           <p>You have the option of monthly or yearly billing.</p>
 
-          <template x-for="plan in plans">
-            <fieldset>
-              <legend class="text-base font-medium text-gray-900">Select a mailing list</legend>
-
-              <div class="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4">
-                <!--
-				  Checked: "border-transparent", Not Checked: "border-gray-300"
-				  Active: "border-indigo-500 ring-2 ring-indigo-500"
-				-->
-                <label class="relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm focus:outline-none">
-                  <input type="radio" name="project-type" value="Newsletter" class="sr-only" aria-labelledby="project-type-0-label" aria-describedby="project-type-0-description-0 project-type-0-description-1">
-                  <span class="flex flex-1">
-                    <span class="flex flex-col">
-                      <span id="project-type-0-label" class="block text-sm font-medium text-gray-900">Newsletter</span>
-                      <span id="project-type-0-description-0" class="mt-1 flex items-center text-sm text-gray-500">Last message sent an hour ago</span>
-                      <span id="project-type-0-description-1" class="mt-6 text-sm font-medium text-gray-900">621 users</span>
+          <div class="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4">
+            <template x-for="plan in plans">
+              <label class="relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm focus:outline-none">
+                <input type="radio" :value="plan" x-model="selectedPlan" class="sr-only" @input="selectedPlan = plan.id" :aria-labelledby="plan.name" :aria-describedby="plan.name + ' ' + plan.priceMonthly + ' a month or ' + plan.priceYearly + ' a year with ' + plan.yearlyDiscountDetails">
+                <span class="flex flex-1">
+                  <span class="flex flex-col">
+                    <span>
+                      <img :src="plan.iconPath" :alt="plan.altText">
                     </span>
-                  </span>
-                  <!--
-					Not Checked: "invisible"
-
-					Heroicon name: mini/check-circle
-				  -->
-                  <svg class="h-5 w-5 text-indigo-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
-                  </svg>
-                  <!--
-					Active: "border", Not Active: "border-2"
-					Checked: "border-indigo-500", Not Checked: "border-transparent"
-				  -->
-                  <span class="pointer-events-none absolute -inset-px rounded-lg border-2" aria-hidden="true"></span>
-                </label>
-
-                <!--
-				  Checked: "border-transparent", Not Checked: "border-gray-300"
-				  Active: "border-indigo-500 ring-2 ring-indigo-500"
-				-->
-                <label class="relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm focus:outline-none">
-                  <input type="radio" name="project-type" value="Existing Customers" class="sr-only" aria-labelledby="project-type-1-label" aria-describedby="project-type-1-description-0 project-type-1-description-1">
-                  <span class="flex flex-1">
-                    <span class="flex flex-col">
-                      <span id="project-type-1-label" class="block text-sm font-medium text-gray-900">Existing Customers</span>
-                      <span id="project-type-1-description-0" class="mt-1 flex items-center text-sm text-gray-500">Last message sent 2 weeks ago</span>
-                      <span id="project-type-1-description-1" class="mt-6 text-sm font-medium text-gray-900">1200 users</span>
+                    <span class="block text-sm font-medium text-gray-900" x-text="plan.name"></span>
+                    <span>&dollar;<span class="mt-1 flex items-center text-sm text-gray-500" x-text="billingYearly ? plan.priceYearly + '/yr' : plan.priceMonthly + '/mo'"></span>
                     </span>
+                    <span class="mt-6 text-sm font-medium text-gray-900" x-show="billingYearly" x-text="plan.yearlyDiscountDetails"></span>
                   </span>
-                  <!--
-					Not Checked: "invisible"
-
-					Heroicon name: mini/check-circle
-				  -->
-                  <svg class="h-5 w-5 text-indigo-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
-                  </svg>
-                  <!--
-					Active: "border", Not Active: "border-2"
-					Checked: "border-indigo-500", Not Checked: "border-transparent"
-				  -->
-                  <span class="pointer-events-none absolute -inset-px rounded-lg border-2" aria-hidden="true"></span>
-                </label>
-
-                <!--
-				  Checked: "border-transparent", Not Checked: "border-gray-300"
-				  Active: "border-indigo-500 ring-2 ring-indigo-500"
-				-->
-                <label class="relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm focus:outline-none">
-                  <input type="radio" name="project-type" value="Trial Users" class="sr-only" aria-labelledby="project-type-2-label" aria-describedby="project-type-2-description-0 project-type-2-description-1">
-                  <span class="flex flex-1">
-                    <span class="flex flex-col">
-                      <span id="project-type-2-label" class="block text-sm font-medium text-gray-900">Trial Users</span>
-                      <span id="project-type-2-description-0" class="mt-1 flex items-center text-sm text-gray-500">Last message sent 4 days ago</span>
-                      <span id="project-type-2-description-1" class="mt-6 text-sm font-medium text-gray-900">2740 users</span>
-                    </span>
-                  </span>
-                  <!--
-					Not Checked: "invisible"
-
-					Heroicon name: mini/check-circle
-				  -->
-                  <svg class="h-5 w-5 text-indigo-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
-                  </svg>
-                  <!--
-					Active: "border", Not Active: "border-2"
-					Checked: "border-indigo-500", Not Checked: "border-transparent"
-				  -->
-                  <span class="pointer-events-none absolute -inset-px rounded-lg border-2" aria-hidden="true"></span>
-                </label>
-              </div>
-            </fieldset>
-
-            <div>
-              <label>
-                <input type="radio" name="plans">
+                </span>
               </label>
-              <span></span>
-              <h3 x-text="plan.title"></h3>
-              <span x-text="billingYearly ? plan.priceYearly + '/yr' : plan.priceMonthly + '/mo'"></span>
-              <span x-show="billingYearly" x-text="plan.yearlyDiscountDetails"></span>
-            </div>
-          </template>
+            </template>
+          </div>
         </fieldset>
 
         <div class="flex items-center gap-4">
@@ -200,8 +141,8 @@
           <span :class="billingYearly ? 'text-sm font-medium text-gray-900' : 'text-sm text-gray-500'">Yearly</span>
         </div>
 
-          <button type="button" @click="currentStep = 1">Go Back</button>
-          <button type="button" @click="currentStep = 3">Next Step</button>
+          <button type="button" @click="currentStep--">Go Back</button>
+          <button type="button" @click="nextStep()">Next Step</button>
 
       </section>
       <!-- Step 2 end -->
@@ -212,38 +153,24 @@
       <h2>Pick add-ons</h2>
       <p>Add-ons help enhance your gaming experience.</p>
 
-        <!--
-  This example requires some changes to your config:
-
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
--->
         <fieldset class="space-y-5">
           <legend class="sr-only">Notifications</legend>
-          <template x-for="addon in addons">
-            <div class="relative flex items-start">
+          <template x-for="item in addons">
+            <div class="relative flex items-center justify-between gap-4 p-2 border border-gray-light">
               <div class="flex h-5 items-center">
-                <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                <input :value="item.id" x-model="selectedAddons" :aria-describedby="item.details" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
               </div>
-              <div class="ml-3 text-sm">
-                <label for="comments" class="font-medium text-gray-700" x-text="addon.name"></label>
-                <p id="comments-description" class="text-gray-500" x-text="addon.details"></p>
+              <div class="flex-grow text-sm">
+                <label class="font-medium text-gray-700" x-text="item.name"></label>
+                <p id="comments-description" class="text-gray-500" x-text="item.details"></p>
               </div>
-              <span>+&dollar;<span x-text="billingYearly ? addon.priceYearly + '/yr' : addon.priceMonthly + '/mo'"></span></span>
+              <span>+&dollar;<span x-text="billingYearly ? item.priceYearly + '/yr' : item.priceMonthly + '/mo'"></span></span>
             </div>
           </template>
         </fieldset>
 
-          <button type="button" @click="currentStep = 2">Go Back</button>
-          <button type="button" @click="currentStep = 4">Next Step</button>
+          <button type="button" @click="currentStep--">Go Back</button>
+          <button type="button" @click="nextStep()">Next Step</button>
 
       </section>
       <!-- Step 3 end -->
@@ -251,15 +178,29 @@
       <!-- Step 4 start -->
       <section x-show="currentStep === 4">
 
-      <h2>Finishing up</h2>
-      <p>Double-check everything looks OK before confirming.</p>
+        <h2>Finishing up</h2>
+        <p>Double-check everything looks OK before confirming.</p>
 
-      <!-- Dynamically add subscription and add-on selections here -->
+        <div>
+          <template x-for="plan in getOrderedPlan(order.plan)">
+            <div>
+              <span x-text="plan.name"></span>
+              <span x-text="billingYearly ? plan.priceYearly + '/yr' : plan.priceMonthly + '/mo'"></span>
+              <button type="button" @click="currentStep = 2">Change</button>
+            </div>
+          </template>
+          <template x-for="item in getOrderedAddons(order.addons)">
+            <div>
+              <span x-text="item.name"></span>
+            </div>
+          </template>
+        </div>
 
-      Total (per month/year)
+        <span>Total (per <span x-text=" billingYearly ? ' year' : ' month'"></span>)</span>
+        <span x-text="billingYearly ? total() + '/yr' : total() + '/mo'"></span>
 
-        <button type="button" @click="currentStep = 3">Go Back</button>
-        <button type="submit" @click="currentStep = 5">Confirm</button>
+        <button type="button" @click="currentStep--">Go Back</button>
+        <button type="submit" @click="nextStep()">Confirm</button>
 
       </section>
       <!-- Step 4 end -->
@@ -267,11 +208,11 @@
       <!-- Step 5 start -->
       <section x-show="currentStep === 5">
 
-      <h2>Thank you!</h2>
+        <h2>Thank you!</h2>
 
-      <p>Thanks for confirming your subscription! We hope you have fun
-      using our platform. If you ever need support, please feel free
-      to email us at support@loremgaming.com.</p>
+        <p>Thanks for confirming your subscription! We hope you have fun
+        using our platform. If you ever need support, please feel free
+        to email us at support@loremgaming.com.</p>
 
       </section>
       <!-- Step 5 end -->
