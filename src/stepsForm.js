@@ -17,7 +17,7 @@ window.multiSteps = function () {
             {id: 'addon3', name: 'Customizable Profile', details: 'Custom theme on your profile', priceMonthly : 2, priceYearly : 20},
         ],
         billingYearly: false,
-        currentStep : 4,
+        currentStep : 1,
         name: '',
         email: '',
         phone: '',
@@ -91,7 +91,7 @@ window.multiSteps = function () {
         getOrderedPlan(selectedPlanId) {
             return this.orderedPlan = this.plans.filter((plan) => {
                 return plan.id === selectedPlanId
-            })
+            })[0]
         },
         getOrderedAddons(addonIds) {
             let addonIdsArray = Object.values(addonIds)
@@ -100,32 +100,21 @@ window.multiSteps = function () {
             })
         },
         total() {
-            let orderedPlan = this.getOrderedPlan(this.selectedPlan)
-            // let addonsArray = this.getOrderedAddons(this.order.addons)
-            // let addonTotal
-            // if(this.billingYearly) {
-            //     for (let i = 0 ; i < addonsArray.length ; i++) {
-            //         for (let item in addonsArray) {
-            //             addonTotal = addonTotal + item.priceYearly
-            //         }
-            //     }
-            //     this.order.total = orderedPlan.priceYearly + addonTotal
-            // } else {
-            //     for (let i = 0 ; i < addonsArray.length ; i++) {
-            //         for (let item in addonsArray) {
-            //             addonTotal = addonTotal + Number(item.priceMonthly)
-            //         }
-            //     }
-            //     this.order.total = Number(orderedPlan.priceMonthly) + addonTotal
-            // }
-            console.log('selected ' + this.selectedPlan)
-            console.log('order ' + this.order.plan)
-            console.log( 'local ' + orderedPlan)
-            // console.log(Number(orderedPlan.priceMonthly))
-            // console.log(Number(addonTotal))
-            // console.log(this.order.total)
-            // return this.order.total
-
+            let addonsArray = this.getOrderedAddons(this.order.addons)
+            let planPrice = 0
+            let addonPrice = 0
+            if(this.billingYearly) {
+                planPrice = this.order.plan.priceYearly
+                addonsArray.forEach(item => {
+                    addonPrice = addonPrice + item.priceYearly
+                })
+            } else {
+                planPrice = this.order.plan.priceMonthly
+                addonsArray.forEach(item => {
+                    addonPrice = addonPrice + item.priceMonthly
+                })
+            }
+            return planPrice + addonPrice
         },
         nextStep() {
             switch (this.currentStep){
@@ -138,8 +127,8 @@ window.multiSteps = function () {
                     }
                     break;
                 case 2 :
-                    if(this.selectedPlan != null) {
-                        this.order.plan = this.selectedPlan
+                    if(this.selectedPlan != '') {
+                        this.order.plan = this.getOrderedPlan(this.selectedPlan)
                         this.order.billingYearly = this.billingYearly
                         this.currentStep = 3
                     }
@@ -152,8 +141,8 @@ window.multiSteps = function () {
                     break;
                 case 4 :
                     if(this.selectedAddons.length > 0) {
-                        this.order.addons = this.selectedAddons
-                        this.currentStep = 4
+                        this.order.total = this.total()
+                        this.currentStep = 'finished'
                     }
                     break;
             }

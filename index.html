@@ -116,7 +116,7 @@
           <div class="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4">
             <template x-for="plan in plans">
               <label class="relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm focus:outline-none">
-                <input type="radio" :value="plan" x-model="selectedPlan" class="sr-only" @input="selectedPlan = plan.id" :aria-labelledby="plan.name" :aria-describedby="plan.name + ' ' + plan.priceMonthly + ' a month or ' + plan.priceYearly + ' a year with ' + plan.yearlyDiscountDetails">
+                <input type="radio" :value="plan.id" x-model="selectedPlan" class="sr-only" @input="selectedPlan = plan.id" :aria-labelledby="plan.name" :aria-describedby="plan.name + ' ' + plan.priceMonthly + ' a month or ' + plan.priceYearly + ' a year with ' + plan.yearlyDiscountDetails">
                 <span class="flex flex-1">
                   <span class="flex flex-col">
                     <span>
@@ -182,16 +182,17 @@
         <p>Double-check everything looks OK before confirming.</p>
 
         <div>
-          <template x-for="plan in getOrderedPlan(order.plan)">
-            <div>
-              <span x-text="plan.name"></span>
-              <span x-text="billingYearly ? plan.priceYearly + '/yr' : plan.priceMonthly + '/mo'"></span>
-              <button type="button" @click="currentStep = 2">Change</button>
-            </div>
-          </template>
+          <div>
+            <span>
+              <span x-text="order.plan.name"></span> (<span x-text=" billingYearly ? 'Yearly' : 'Monthly'"></span>)
+            </span>
+            <span x-text="billingYearly ? order.plan.priceYearly + '/yr' : order.plan.priceMonthly + '/mo'"></span>
+            <button type="button" @click="currentStep = 2">Change</button>
+          </div>
           <template x-for="item in getOrderedAddons(order.addons)">
             <div>
               <span x-text="item.name"></span>
+              <span x-text="billingYearly ? item.priceYearly + '/yr' : item.priceMonthly + '/mo'"></span>
             </div>
           </template>
         </div>
@@ -200,13 +201,13 @@
         <span x-text="billingYearly ? total() + '/yr' : total() + '/mo'"></span>
 
         <button type="button" @click="currentStep--">Go Back</button>
-        <button type="submit" @click="nextStep()">Confirm</button>
+        <button type="button" @click="nextStep()">Confirm</button>
 
       </section>
       <!-- Step 4 end -->
 
       <!-- Step 5 start -->
-      <section x-show="currentStep === 5">
+      <section x-show="currentStep === 'finished'">
 
         <h2>Thank you!</h2>
 
