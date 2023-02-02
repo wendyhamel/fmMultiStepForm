@@ -24,30 +24,29 @@
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
 </head>
-<body class="bg-magnolia antialiased">
-<main class="min-h-screen">
+<body class="bg-magnolia antialiased sm:min-h-screen sm:grid sm:place-items-center">
+<main class="min-h-screen sm:min-h-0 sm:max-w-screen-lg">
   <section
       x-data="multiSteps()"
-      class="min-h-screen flex flex-col"
+      class="min-h-screen flex flex-col sm:min-h-0 sm:flex-row sm:mx-4 sm:rounded-xl sm:bg-white sm:shadow-lg sm:shadow-gray-light md:mx-10"
   >
   <!-- Sidebar start -->
-    <section class="relative">
+    <section class="relative sm:rounded-lg sm:ml-4 sm:my-4 sm:shrink-0 sm:grow sm:min-w-[17rem]" style="background-image: url('./assets/images/bg-sidebar-desktop.svg'); background-repeat: no-repeat; background-size: cover">
       <div class="absolute inset-x-0 max-h-[11rem] overflow-hidden">
         <img class="w-full object-cover object-bottom sm:hidden" src="./assets/images/bg-sidebar-mobile.svg" alt="colorful background">
-        <img class="hidden sm:block" src="./assets/images/bg-sidebar-desktop.svg" alt="colorful background">
       </div>
-      <ol class="mt-8 mb-9 mx-auto relative flex justify-center gap-4">
+      <ol class="mt-8 mb-9 mx-auto relative flex justify-center gap-4 sm:flex-col sm:px-8 sm:pt-2 sm:gap-7">
         <template x-for="step in steps" :key="step.id">
-          <li class="flex">
+          <li class="flex items-center sm:gap-4">
             <div
                 class="rounded-full w-8 h-8 grid place-items-center border border-blue-pastel text-xs font-bold"
                 :class="currentStep === step.id ? 'bg-blue-light text-blue-marine' : 'text-white'"
             >
               <span x-text="step.id"></span>
             </div>
-            <div class="hidden md:block">
-              <span>Step <span x-text="step.id"></span></span>
-              <h3 x-text="step.title"></h3>
+            <div class="hidden sm:block sm:grid sm:uppercase sm:tracking-wide">
+              <span class="text-blue-pastel text-xs">Step <span x-text="step.id"></span></span>
+              <span class="text-white font-bold text-sm" x-text="step.title"></span>
             </div>
           </li>
         </template>
@@ -58,7 +57,7 @@
   <!-- Steps content -->
 
     <form
-        class="relative grow flex flex-col justify-between"
+        class="relative grow flex flex-col justify-between sm:grow-0"
         method="post"
         x-init="
             $watch('name', value => { validate('name')})
@@ -67,18 +66,18 @@
         "
     >
 
-      <section class="mx-4 rounded-lg bg-white shadow-lg shadow-gray-light px-6 pt-7 pb-8">
+      <section class="mx-4 rounded-lg bg-white shadow-lg shadow-gray-light px-6 pt-7 pb-8 sm:mx-0 sm:pt-16 sm:pb-20 sm:rounded-none sm:bg-transparent sm:shadow-none lg:mx-20">
         <!-- Step 1 start -->
         <section x-show="currentStep === 1">
-          <div class="space-y-2 mb-5">
-            <h2 class="text-2xl font-bold text-blue-marine">Personal info</h2>
+          <div class="space-y-2 mb-5 sm:mb-10">
+            <h2 class="text-2xl font-bold text-blue-marine sm:text-3xl">Personal info</h2>
             <p class="text-gray-cool">Please provide your name, email address, and phone number.</p>
           </div>
 
-          <div class="space-y-4">
+          <div class="space-y-4 sm:space-y-6">
             <div>
               <span>
-                <label for="name" class="block text-xs text-blue-marine">
+                <label for="name" class="block text-xs text-blue-marine sm:text-sm">
                   Name
                 </label>
                 <span class="text-red-strawberry" x-text="validation.name.message"></span>
@@ -87,7 +86,7 @@
                   id="name"
                   x-model="name"
                   type="text"
-                  class="mt-0.5 block w-full rounded px-3.5 py-2.5 border border-gray-light text-sm text-gray-cool tracking-wider focus:border-indigo-500 focus:ring-indigo-500 placeholder:font-medium"
+                  class="mt-0.5 block w-full rounded px-3.5 py-2.5 border border-gray-light text-sm text-gray-cool tracking-wider focus:border-indigo-500 focus:ring-indigo-500 placeholder:font-medium sm:mt-1.5 sm:rounded-lg sm:text-base"
                   placeholder="e.g. Stephen King"
                   required
               >
@@ -95,7 +94,7 @@
 
             <div>
              <span>
-                <label for="email" class="block text-xs text-blue-marine">
+                <label for="email" class="block text-xs text-blue-marine sm:text-sm">
                 Email Address
               </label>
               <span class="text-red-strawberry" x-text="validation.email.message"></span>
@@ -104,7 +103,7 @@
                   id="email"
                   x-model="email"
                   type="text"
-                  class="mt-0.5 block w-full rounded px-3.5 py-2.5 border border-gray-light text-sm text-gray-cool tracking-wider focus:border-indigo-500 focus:ring-indigo-500 placeholder:font-medium"
+                  class="mt-0.5 block w-full rounded px-3.5 py-2.5 border border-gray-light text-sm text-gray-cool tracking-wider focus:border-indigo-500 focus:ring-indigo-500 placeholder:font-medium sm:mt-1.5 sm:rounded-lg sm:text-base"
                   placeholder="e.g. stephenking@lorem.com"
                   required
               >
@@ -112,7 +111,7 @@
 
             <div>
               <span>
-                <label for="phone" class="block text-xs text-blue-marine">
+                <label for="phone" class="block text-xs text-blue-marine sm:text-sm">
                   Phone Number
                 </label>
                 <span class="text-red-strawberry" x-text="validation.phone.message"></span>
@@ -121,7 +120,7 @@
                   id="phone"
                   x-model="phone"
                   type="text"
-                  class="mt-0.5 block w-full rounded px-3.5 py-2.5 border border-gray-light text-sm text-gray-cool tracking-wider focus:border-indigo-500 focus:ring-indigo-500 placeholder:font-medium"
+                  class="mt-0.5 block w-full rounded px-3.5 py-2.5 border border-gray-light text-sm text-gray-cool tracking-wider focus:border-indigo-500 focus:ring-indigo-500 placeholder:font-medium sm:mt-1.5 sm:rounded-lg sm:text-base"
                   placeholder="e.g. +1 234 567 890"
                   required
               >
@@ -132,11 +131,12 @@
         <!-- Step 1 end -->
 
         <!-- Step 2 start -->
-        <section x-show="currentStep === 2" class="space-y-2">
+        <section x-show="currentStep === 2">
           <fieldset>
-            <legend><h2 class="text-2xl font-bold text-blue-marine">Select your plan</h2></legend>
-
-            <p class="text-gray-cool">You have the option of monthly or yearly billing.</p>
+            <div class="space-y-2 mb-5">
+              <legend><h2 class="text-2xl font-bold text-blue-marine sm:text-3xl">Select your plan</h2></legend>
+              <p class="text-gray-cool">You have the option of monthly or yearly billing.</p>
+            </div>
 
             <div class="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4">
               <template x-for="plan in plans">
@@ -170,11 +170,11 @@
         <!-- Step 2 end -->
 
         <!-- Step 3 start -->
-        <section x-show="currentStep === 3" class="space-y-2">
-
-        <h2 class="text-2xl font-bold text-blue-marine">Pick add-ons</h2>
-        <p class="text-gray-cool">Add-ons help enhance your gaming experience.</p>
-
+        <section x-show="currentStep === 3">
+          <div class="space-y-2 mb-5">
+            <h2 class="text-2xl font-bold text-blue-marine sm:text-3xl">Pick add-ons</h2>
+            <p class="text-gray-cool">Add-ons help enhance your gaming experience.</p>
+          </div>
           <fieldset class="space-y-5">
             <legend class="sr-only">Notifications</legend>
             <template x-for="item in addons">
@@ -195,11 +195,11 @@
         <!-- Step 3 end -->
 
         <!-- Step 4 start -->
-        <section x-show="currentStep === 4" class="space-y-2">
-
-          <h2 class="text-2xl font-bold text-blue-marine">Finishing up</h2>
-          <p class="text-gray-cool">Double-check everything looks OK before confirming.</p>
-
+        <section x-show="currentStep === 4">
+          <div class="space-y-2 mb-5">
+            <h2 class="text-2xl font-bold text-blue-marine sm:text-3xl">Finishing up</h2>
+            <p class="text-gray-cool">Double-check everything looks OK before confirming.</p>
+          </div>
           <div>
             <div>
               <span>
@@ -223,18 +223,18 @@
         <!-- Step 4 end -->
 
         <!-- Step 5 start -->
-        <section x-show="currentStep === 'finished'" class="space-y-2">
+        <section x-show="currentStep === 'finished'">
+          <div class="space-y-2 mb-5">
+            <h2 class="text-2xl font-bold text-blue-marine sm:text-3xl">Thank you!</h2>
 
-          <h2 class="text-2xl font-bold text-blue-marine">Thank you!</h2>
-
-          <p class="text-gray-cool">Thanks for confirming your subscription! We hope you have fun
-          using our platform. If you ever need support, please feel free
-          to email us at support@loremgaming.com.</p>
-
+            <p class="text-gray-cool">Thanks for confirming your subscription! We hope you have fun
+            using our platform. If you ever need support, please feel free
+            to email us at support@loremgaming.com.</p>
+          </div>
         </section>
        <!-- Step 5 end -->
       </section>
-      <section class="fixed bottom-0 inset-x-0 flex justify-between bg-white p-4">
+      <section class="fixed bottom-0 inset-x-0 flex justify-between bg-white p-4 sm:relative sm:bg-transparent sm:pb-6 sm:px-6 lg:mx-20">
         <button
                 x-show="currentStep > 1 && currentStep < 5"
                 type="button"
@@ -245,14 +245,14 @@
                 x-show="currentStep === 1"
                 type="button"
                 @click="validate('name'); validate('email'); validate('phone'); nextStep()"
-                class="ml-auto bg-blue-marine text-white text-sm py-2.5 px-4 rounded flex items-center justify-center hover:bg-blue-marine/90"
+                class="ml-auto bg-blue-marine text-white text-sm leading-snug py-2.5 px-4 rounded flex items-center justify-center hover:bg-blue-marine/90 sm:font-bold sm:rounded-lg sm:px-7 sm:py-3.5"
                 x-text="'Next Step'"
         ></button>
         <button
                 x-show="currentStep > 1 && currentStep < 5"
                 type="button"
                 @click="nextStep()" x-text="currentStep === 4 ? 'Confirm' : 'Next Step'"
-                class="bg-blue-marine text-white text-sm py-2.5 px-4 rounded flex items-center justify-center hover:bg-blue-marine/90"
+                class="bg-blue-marine text-white text-sm leading-snug py-2.5 px-4 rounded flex items-center justify-center hover:bg-blue-marine/90 sm:font-bold sm:rounded-lg sm:px-7 sm:py-3.5"
         ></button>
       </section>
     </form>
