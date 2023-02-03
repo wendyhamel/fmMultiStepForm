@@ -170,7 +170,8 @@
 
           <div class="flex items-center justify-center mt-6 p-3 gap-6 bg-alabaster rounded-lg font-medium md:py-4 md:mt-8 md:mb-3">
             <span :class="!billingYearly ? 'text-sm text-marine' : 'text-sm text-gray-cool'">Monthly</span>
-            <button @click="billingYearly = !billingYearly" type="button" :title="billingYearly ? 'Yearly' : 'Monthly'" class="bg-blue-marine relative inline-flex h-4.5 w-10 flex-shrink-0 cursor-pointer rounded-full border-4 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-purple" role="switch" aria-checked="false" aria-labelledby="annual-billing-label">
+            <button @click="billingYearly = !billingYearly" type="button" class="bg-blue-marine relative inline-flex h-4.5 w-10 flex-shrink-0 cursor-pointer rounded-full border-4 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-purple" role="switch" aria-checked="false" aria-labelledby="annual-billing-label">
+              <span class="sr-only" x-text="billingYearly ? 'Yearly' : 'Monthly'"></span>
               <span aria-hidden="true" :class="billingYearly ? 'translate-x-5' : 'translate-x-0'" class="pointer-events-none inline-block h-3 w-3 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
             </button>
             <span :class="billingYearly ? 'text-xs text-marine' : 'text-sm text-gray-cool'">Yearly</span>

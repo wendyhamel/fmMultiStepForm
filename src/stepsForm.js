@@ -17,7 +17,7 @@ window.multiSteps = function () {
             {id: 'addon3', name: 'Customizable Profile', details: 'Custom theme on your profile', priceMonthly : 2, priceYearly : 20},
         ],
         billingYearly: false,
-        currentStep : 2,
+        currentStep : 1,
         finished : false,
         name: '',
         email: '',
