@@ -220,7 +220,7 @@
             <div class="flex gap-4 items-center justify-between">
               <div class="grid">
                 <span class="text-blue-marine font-medium"><span x-text="order.plan.name"></span> (<span x-text="billingYearly ? 'Yearly' : 'Monthly'"></span>)</span>
-                <button class="flex text-gray-cool underline decoration-2 hover:text-blue-purple focus:text-blue-purple" type="button" @click="currentStep = 2">Change</button>
+                <button class="flex text-gray-cool underline decoration-2 hover:text-blue-purple focus:text-blue-purple" type="button" @click="order.billingYearly = !order.billingYearly; billingYearly = !billingYearly">Change</button>
               </div>
               <span>&dollar;<span class="text-blue-marine font-medium" x-text="billingYearly ? order.plan.priceYearly + '/yr' : order.plan.priceMonthly + '/mo'"></span></span>
             </div>
