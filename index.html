@@ -76,51 +76,54 @@
 
           <div class="space-y-4 sm:space-y-6">
             <div>
-              <span>
+              <span class="flex justify-between">
                 <label for="name" class="block text-xs text-blue-marine sm:text-sm">
                   Name
                 </label>
-                <span class="text-red-strawberry" x-text="validation.name.message"></span>
+                <span class="text-red-strawberry font-bold text-sm" x-text="validation.name.message"></span>
               </span>
               <input
                   id="name"
                   x-model="name"
                   type="text"
-                  class="mt-0.5 block w-full rounded px-3.5 py-2.5 border border-gray-light text-sm text-gray-cool tracking-wider focus:border-indigo-500 focus:ring-indigo-500 placeholder:font-medium sm:mt-1.5 sm:rounded-lg sm:text-base"
+                  class="mt-0.5 block w-full rounded px-3.5 py-2.5 border text-sm tracking-wider font-medium text-blue-marine placeholder-gray-cool placeholder:font-medium focus:outline-none focus:ring-none sm:mt-1.5 sm:rounded-lg sm:text-base"
+                  :class="validation.name.message ? 'border-red-strawberry' : 'border-gray-light hover:border-blue-purple focus:border-blue-purple'"
                   placeholder="e.g. Stephen King"
                   required
               >
             </div>
 
             <div>
-             <span>
+             <span class="flex justify-between">
                 <label for="email" class="block text-xs text-blue-marine sm:text-sm">
                 Email Address
               </label>
-              <span class="text-red-strawberry" x-text="validation.email.message"></span>
+              <span class="text-red-strawberry font-medium text-sm" x-text="validation.email.message"></span>
              </span>
               <input
                   id="email"
                   x-model="email"
                   type="text"
-                  class="mt-0.5 block w-full rounded px-3.5 py-2.5 border border-gray-light text-sm text-gray-cool tracking-wider focus:border-indigo-500 focus:ring-indigo-500 placeholder:font-medium sm:mt-1.5 sm:rounded-lg sm:text-base"
+                  class="mt-0.5 block w-full rounded px-3.5 py-2.5 border text-sm tracking-wider font-medium text-blue-marine placeholder-gray-cool placeholder:font-medium focus:outline-none focus:ring-none sm:mt-1.5 sm:rounded-lg sm:text-base"
+                  :class="validation.email.message ? 'border-red-strawberry' : 'border-gray-light hover:border-blue-purple focus:border-blue-purple'"
                   placeholder="e.g. stephenking@lorem.com"
                   required
               >
             </div>
 
             <div>
-              <span>
+              <span class="flex justify-between">
                 <label for="phone" class="block text-xs text-blue-marine sm:text-sm">
                   Phone Number
                 </label>
-                <span class="text-red-strawberry" x-text="validation.phone.message"></span>
+                <span class="text-red-strawberry font-medium text-sm" x-text="validation.phone.message"></span>
               </span>
               <input
                   id="phone"
                   x-model="phone"
                   type="text"
-                  class="mt-0.5 block w-full rounded px-3.5 py-2.5 border border-gray-light text-sm text-gray-cool tracking-wider focus:border-indigo-500 focus:ring-indigo-500 placeholder:font-medium sm:mt-1.5 sm:rounded-lg sm:text-base"
+                  class="mt-0.5 block w-full rounded px-3.5 py-2.5 border text-sm tracking-wider font-medium text-blue-marine placeholder-gray-cool placeholder:font-medium focus:outline-none focus:ring-none sm:mt-1.5 sm:rounded-lg sm:text-base"
+                  :class="validation.phone.message ? 'border-red-strawberry' : 'border-gray-light hover:border-blue-purple focus:border-blue-purple'"
                   placeholder="e.g. +1 234 567 890"
                   required
               >
