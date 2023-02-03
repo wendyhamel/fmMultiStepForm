@@ -24,11 +24,11 @@
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
 </head>
-<body class="bg-magnolia antialiased sm:min-h-screen sm:grid sm:place-items-center">
+<body class="bg-magnolia antialiased sm:min-h-screen md:grid md:place-items-center">
 <main class="min-h-screen sm:min-h-0 sm:max-w-screen-lg">
   <section
       x-data="multiSteps()"
-      class="min-h-screen flex flex-col sm:min-h-0 sm:flex-row sm:mx-4 sm:rounded-xl sm:bg-white sm:shadow-lg sm:shadow-gray-light md:mx-10"
+      class="min-h-screen flex flex-col sm:min-h-0 sm:flex-row sm:m-4 sm:rounded-xl sm:bg-white sm:shadow-lg sm:shadow-gray-light md:mx-10"
   >
   <!-- Sidebar start -->
     <section class="relative sm:rounded-lg sm:ml-4 sm:my-4 sm:shrink-0 sm:grow sm:min-w-[17rem]" style="background-image: url('./assets/images/bg-sidebar-desktop.svg'); background-repeat: no-repeat; background-size: cover">
@@ -57,7 +57,7 @@
   <!-- Steps content -->
 
     <form
-        class="relative grow flex flex-col justify-between sm:grow-0"
+        class="relative grow flex flex-col justify-between"
         method="post"
         x-init="
             $watch('name', value => { validate('name')})
@@ -66,7 +66,7 @@
         "
     >
 
-      <section class="mx-4 rounded-lg bg-white shadow-lg shadow-gray-light px-6 pt-7 pb-8 sm:mx-0 sm:pt-16 sm:pb-20 sm:rounded-none sm:bg-transparent sm:shadow-none lg:mx-20">
+      <section class="mx-4 rounded-lg bg-white shadow-lg shadow-gray-light px-6 pt-7 pb-8 sm:mx-0 sm:pt-16 sm:pb-20 sm:rounded-none sm:bg-transparent sm:shadow-none md:mx-8 lg:mx-20 lg:w-[512px]">
         <!-- Step 1 start -->
         <section x-show="currentStep === 1">
           <div class="space-y-2 mb-5 sm:mb-10">
@@ -133,37 +133,43 @@
         <!-- Step 2 start -->
         <section x-show="currentStep === 2">
           <fieldset>
-            <div class="space-y-2 mb-5">
+            <div class="space-y-2 mb-5 sm:mb-10">
               <legend><h2 class="text-2xl font-bold text-blue-marine sm:text-3xl">Select your plan</h2></legend>
               <p class="text-gray-cool">You have the option of monthly or yearly billing.</p>
             </div>
 
-            <div class="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4">
+            <div class="mt-4 grid grid-cols-1 gap-3 lg:grid-cols-[repeat(3,_minmax(140px,_1fr))] md:gap-5 lg:mt-5">
               <template x-for="plan in plans">
-                <label class="relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm focus:outline-none">
-                  <input type="radio" :value="plan.id" x-model="selectedPlan" class="sr-only" @input="selectedPlan = plan.id" :aria-labelledby="plan.name" :aria-describedby="plan.name + ' ' + plan.priceMonthly + ' a month or ' + plan.priceYearly + ' a year with ' + plan.yearlyDiscountDetails">
-                  <span class="flex flex-1">
-                    <span class="flex flex-col">
-                      <span>
+                <label
+                    :for="plan.id"
+                    class="relative flex cursor-pointer rounded-lg border p-4 border hover:border-blue-purple focus:outline-none focus-within:border-blue-purple transition duration-200 ease-in-out"
+                    :class="selectedPlan === plan.id ? 'border-blue-purple bg-alabaster' : 'border-gray-light bg-white'"
+                >
+                  <input :id="plan.id" type="radio" :value="plan.id" x-model="selectedPlan" class="sr-only" @input="selectedPlan = plan.id" :aria-labelledby="plan.name" :aria-describedby="plan.name + ' ' + plan.priceMonthly + ' a month or ' + plan.priceYearly + ' a year with ' + plan.yearlyDiscountDetails">
+                    <span class="flex gap-4 lg:flex-col lg:gap-11">
+                      <span class="shrink-0">
                         <img :src="plan.iconPath" :alt="plan.altText">
                       </span>
-                      <span class="block text-sm font-medium text-gray-900" x-text="plan.name"></span>
-                      <span>&dollar;<span class="mt-1 flex items-center text-sm text-gray-500" x-text="billingYearly ? plan.priceYearly + '/yr' : plan.priceMonthly + '/mo'"></span>
+                      <span class="flex flex-col gap-1 lg:gap-0">
+                        <span class="block font-medium text-blue-marine leading-snug" x-text="plan.name"></span>
+                        <span class="flex items-center text-sm text-gray-cool">
+                          &dollar;
+                          <span x-text="billingYearly ? plan.priceYearly + '/yr' : plan.priceMonthly + '/mo'"></span>
+                        </span>
+                        <span class="text-xs text-blue-marine lg:pt-1" x-show="billingYearly" x-text="plan.yearlyDiscountDetails"></span>
                       </span>
-                      <span class="mt-6 text-sm font-medium text-gray-900" x-show="billingYearly" x-text="plan.yearlyDiscountDetails"></span>
                     </span>
-                  </span>
                 </label>
               </template>
             </div>
           </fieldset>
 
-          <div class="flex items-center gap-4">
-            <span :class="!billingYearly ? 'text-sm font-medium text-gray-900' : 'text-sm text-gray-500'">Monthly</span>
-            <button @click="billingYearly = !billingYearly" type="button" class="bg-blue-marine relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-4 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-purple" role="switch" aria-checked="false" aria-labelledby="annual-billing-label">
-              <span aria-hidden="true" :class="billingYearly ? 'translate-x-5' : 'translate-x-0'" class="pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+          <div class="flex items-center justify-center mt-6 p-3 gap-6 bg-alabaster rounded-lg font-medium md:py-4 md:mt-8 md:mb-3">
+            <span :class="!billingYearly ? 'text-sm text-marine' : 'text-sm text-gray-cool'">Monthly</span>
+            <button @click="billingYearly = !billingYearly" type="button" class="bg-blue-marine relative inline-flex h-4.5 w-10 flex-shrink-0 cursor-pointer rounded-full border-4 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-purple" role="switch" aria-checked="false" aria-labelledby="annual-billing-label">
+              <span aria-hidden="true" :class="billingYearly ? 'translate-x-5' : 'translate-x-0'" class="pointer-events-none inline-block h-3 w-3 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
             </button>
-            <span :class="billingYearly ? 'text-sm font-medium text-gray-900' : 'text-sm text-gray-500'">Yearly</span>
+            <span :class="billingYearly ? 'text-xs text-marine' : 'text-sm text-gray-cool'">Yearly</span>
           </div>
 
         </section>
@@ -171,73 +177,88 @@
 
         <!-- Step 3 start -->
         <section x-show="currentStep === 3">
-          <div class="space-y-2 mb-5">
-            <h2 class="text-2xl font-bold text-blue-marine sm:text-3xl">Pick add-ons</h2>
-            <p class="text-gray-cool">Add-ons help enhance your gaming experience.</p>
-          </div>
-          <fieldset class="space-y-5">
-            <legend class="sr-only">Notifications</legend>
-            <template x-for="item in addons">
-              <div class="relative flex items-center justify-between gap-4 p-2 border border-gray-light">
-                <div class="flex h-5 items-center">
-                  <input :value="item.id" x-model="selectedAddons" :aria-describedby="item.details" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                </div>
-                <div class="flex-grow text-sm">
-                  <label class="font-medium text-gray-700" x-text="item.name"></label>
-                  <p id="comments-description" class="text-gray-500" x-text="item.details"></p>
-                </div>
-                <span>+&dollar;<span x-text="billingYearly ? item.priceYearly + '/yr' : item.priceMonthly + '/mo'"></span></span>
-              </div>
-            </template>
+          <fieldset>
+            <div class="space-y-2 mb-6 sm:mb-10">
+              <legend><h2 class="text-2xl font-bold text-blue-marine sm:text-3xl">Pick add-ons</h2></legend>
+              <p class="text-gray-cool">Add-ons help enhance your gaming experience.</p>
+            </div>
+            <div class="grid gap-3 md:gap-4">
+              <template x-for="item in addons">
+                <label class="relative">
+                  <input :id="item.id" :value="item.id" x-model="selectedAddons" :aria-describedby="item.details" type="checkbox" class="sr-only peer" :checked="">
+                  <span class="absolute top-5 left-4 grid place-items-center shrink-0 h-5 w-5 border border-gray-light rounded items-center peer-checked:bg-blue-purple lg:top-8 lg:left-6">
+                    <img src="./assets/images/icon-checkmark.svg" alt="checkmark icon">
+                  </span>
+                  <span class="block flex items-center gap-4 rounded-lg border px-4 py-3 border border-gray-light bg-white hover:border-blue-purple peer-checked:border-blue-purple peer-checked:bg-alabaster focus:outline-none focus:border-blue-purple transition duration-200 ease-in-out lg:gap-5 lg:px-6 lg:py-5">
+                    <span class="shrink-0 h-5 w-5 lg:mt-3 lg:ml-1"></span>
+                    <span class="flex flex-col flex-grow">
+                      <span class="font-medium text-blue-marine text-sm lg:text-base" x-text="item.name"></span>
+                      <span class="text-gray-cool text-xs lg:text-sm" x-text="item.details"></span>
+                    </span>
+                    <span class="text-blue-purple text-xs lg:text-sm">+&dollar;<span x-text="billingYearly ? item.priceYearly + '/yr' : item.priceMonthly + '/mo'"></span></span>
+                  </span>
+                </label>
+              </template>
+            </div>
           </fieldset>
 
         </section>
         <!-- Step 3 end -->
 
         <!-- Step 4 start -->
-        <section x-show="currentStep === 4">
-          <div class="space-y-2 mb-5">
+        <section x-show="currentStep === 4 && !finished">
+          <div class="space-y-2 mb-5 sm:mb-10">
             <h2 class="text-2xl font-bold text-blue-marine sm:text-3xl">Finishing up</h2>
             <p class="text-gray-cool">Double-check everything looks OK before confirming.</p>
           </div>
-          <div>
-            <div>
-              <span>
-                <span x-text="order.plan.name"></span> (<span x-text=" billingYearly ? 'Yearly' : 'Monthly'"></span>)
-              </span>
-              <span x-text="billingYearly ? order.plan.priceYearly + '/yr' : order.plan.priceMonthly + '/mo'"></span>
-              <button type="button" @click="currentStep = 2">Change</button>
-            </div>
-            <template x-for="item in getOrderedAddons(order.addons)">
-              <div>
-                <span x-text="item.name"></span>
-                <span x-text="billingYearly ? item.priceYearly + '/yr' : item.priceMonthly + '/mo'"></span>
+          <div class="bg-alabaster rounded-lg px-4 py-5 text-sm w-full md:px-6">
+            <div class="flex gap-4 items-center justify-between">
+              <div class="grid">
+                <span class="text-blue-marine font-medium"><span x-text="order.plan.name"></span> (<span x-text="billingYearly ? 'Yearly' : 'Monthly'"></span>)</span>
+                <button class="flex text-gray-cool underline decoration-2 hover:text-blue-purple focus:text-blue-purple" type="button" @click="currentStep = 2">Change</button>
               </div>
-            </template>
+              <span>&dollar;<span class="text-blue-marine font-medium" x-text="billingYearly ? order.plan.priceYearly + '/yr' : order.plan.priceMonthly + '/mo'"></span></span>
+            </div>
+            <div class="border-t border-gray-light grid gap-3 mt-3 pt-3 md:gap-4 md:pt-4 md:mt-5">
+              <template x-for="item in getOrderedAddons(order.addons)">
+                <div class="flex gap-4 items-center justify-between">
+                  <span class="text-gray-cool" x-text="item.name"></span>
+                  <span class="text-blue-marine">+&dollar;<span x-text="billingYearly ? item.priceYearly + '/yr' : item.priceMonthly + '/mo'"></span></span>
+                </div>
+              </template>
+            </div>
           </div>
-
-          <span>Total (per <span x-text=" billingYearly ? ' year' : ' month'"></span>)</span>
-          <span x-text="billingYearly ? total() + '/yr' : total() + '/mo'"></span>
+          <div class="flex gap-4 items-center justify-between mt-4 px-4 md:px-6 md:mt-6 md:mb-6">
+            <span class="text-gray-cool text-sm">Total (per <span x-text=" billingYearly ? ' year' : ' month'"></span>)</span>
+            <span class="text-blue-purple font-medium md:text-lg lg:font-bold">&dollar;<span x-text="billingYearly ? total() + '/yr' : total() + '/mo'"></span></span>
+          </div>
 
         </section>
         <!-- Step 4 end -->
 
         <!-- Step 5 start -->
-        <section x-show="currentStep === 'finished'">
-          <div class="space-y-2 mb-5">
-            <h2 class="text-2xl font-bold text-blue-marine sm:text-3xl">Thank you!</h2>
+        <section x-show="finished">
+          <div class="grid gap-3 place-items-center my-12 lg:my-24">
+            <div>
+              <img class="w-14 h-14 md:w-full md:h-full" src="./assets/images/icon-thank-you.svg" alt="checkmark thank you image">
+            </div>
+            <h2 class="text-2xl font-bold text-blue-marine sm:text-3xl pt-2 md:pt-5">Thank you!</h2>
 
-            <p class="text-gray-cool">Thanks for confirming your subscription! We hope you have fun
+            <p class="text-gray-cool text-center md:max-w-md">Thanks for confirming your subscription! We hope you have fun
             using our platform. If you ever need support, please feel free
             to email us at support@loremgaming.com.</p>
           </div>
         </section>
        <!-- Step 5 end -->
       </section>
-      <section class="fixed bottom-0 inset-x-0 flex justify-between bg-white p-4 sm:relative sm:bg-transparent sm:pb-6 sm:px-6 lg:mx-20">
+      <section
+          x-show="!finished"
+          class="fixed bottom-0 inset-x-0 flex justify-between bg-white p-4 sm:relative sm:bg-transparent sm:pb-7 sm:px-6 md:mx-8 lg:mx-20 lg:w-[512px]"
+      >
         <button
                 x-show="currentStep > 1 && currentStep < 5"
                 type="button"
+                class="text-gray-cool text-sm leading-snug font-medium py-2.5 flex items-center justify-center hover:text-blue-marine sm:text-base sm:py-3"
                 @click="currentStep--"
                 x-text="'Go Back'"
         ></button>
@@ -245,14 +266,15 @@
                 x-show="currentStep === 1"
                 type="button"
                 @click="validate('name'); validate('email'); validate('phone'); nextStep()"
-                class="ml-auto bg-blue-marine text-white text-sm leading-snug py-2.5 px-4 rounded flex items-center justify-center hover:bg-blue-marine/90 sm:font-bold sm:rounded-lg sm:px-7 sm:py-3.5"
+                class="ml-auto bg-blue-marine text-white font-medium text-sm leading-snug py-2.5 px-4 rounded flex items-center justify-center hover:bg-blue-marine/90 sm:rounded-lg sm:py-3 sm:text-base md:w-32"
                 x-text="'Next Step'"
         ></button>
         <button
                 x-show="currentStep > 1 && currentStep < 5"
                 type="button"
                 @click="nextStep()" x-text="currentStep === 4 ? 'Confirm' : 'Next Step'"
-                class="bg-blue-marine text-white text-sm leading-snug py-2.5 px-4 rounded flex items-center justify-center hover:bg-blue-marine/90 sm:font-bold sm:rounded-lg sm:px-7 sm:py-3.5"
+                class="text-white font-medium text-sm leading-snug py-2.5 px-4 rounded flex items-center justify-center sm:rounded-lg sm:py-3 sm:text-base md:w-32"
+                :class="currentStep === 4 ? 'bg-blue-purple hover:bg-blue-purple/90' : 'bg-blue-marine hover:bg-blue-marine/90'"
         ></button>
       </section>
     </form>

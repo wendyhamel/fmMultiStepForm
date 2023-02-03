@@ -1,10 +1,10 @@
 window.multiSteps = function () {
     return {
         steps : [
-            {id: 1, title: 'Your info', completed: false},
-            {id: 2, title: 'Select plan', completed: false},
-            {id: 3, title: 'Add-ons', completed: false},
-            {id: 4, title: 'Summary', completed: false},
+            {id: 1, title: 'Your info'},
+            {id: 2, title: 'Select plan'},
+            {id: 3, title: 'Add-ons'},
+            {id: 4, title: 'Summary'},
         ],
         plans : [
             {id: 'plan1', name: 'Arcade', iconPath: './assets/images/icon-arcade.svg', altText: 'icon-arcade', priceMonthly : 9, priceYearly : 90, yearlyDiscountDetails: '2 months free' },
@@ -18,6 +18,7 @@ window.multiSteps = function () {
         ],
         billingYearly: false,
         currentStep : 1,
+        finished : false,
         name: '',
         email: '',
         phone: '',
@@ -142,7 +143,7 @@ window.multiSteps = function () {
                 case 4 :
                     if(this.selectedAddons.length > 0) {
                         this.order.total = this.total()
-                        this.currentStep = 'finished'
+                        this.finished = true
                     }
                     break;
             }
